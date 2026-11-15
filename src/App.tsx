@@ -40,7 +40,7 @@ export default function App() {
       <section id="doctors" className="bg-ink text-cream py-24 md:py-32 overflow-hidden">
         <div className="max-w-[1240px] mx-auto px-5 md:px-8 mb-14 reveal">
           <p className="kicker text-mint mb-3">Команда</p>
-          <h2 className="h2">Наши врачи</h2>
+          <h2 className="h2">Наша команда</h2>
           <p className="text-sage mt-4 max-w-xl">Наведите на карточку — она повернётся за курсором.</p>
         </div>
         <Doctors />

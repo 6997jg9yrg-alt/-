@@ -58,7 +58,7 @@ function DoctorCard({ d, i }: { d: (typeof doctors)[number]; i: number }) {
         <div className="relative p-5 -mt-14" style={{ transform: 'translateZ(40px)' }}>
           <p className="kicker text-mint">{d.role}</p>
           <h3 className="text-cream text-xl font-bold mt-1">{d.name}</h3>
-          <p className="text-muted text-sm mt-1">{d.exp}</p>
+          {d.exp && <p className="text-muted text-sm mt-1">{d.exp}</p>}
         </div>
       </div>
     </div>
