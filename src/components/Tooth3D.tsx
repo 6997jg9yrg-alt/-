@@ -60,7 +60,7 @@ function dotTexture() {
   return new THREE.CanvasTexture(c)
 }
 
-export default function Tooth3D({ className = '' }: { className?: string }) {
+export default function Tooth3D({ className = '', progressRef }: { className?: string; progressRef?: { current: number } }) {
   const host = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
@@ -178,8 +178,16 @@ export default function Tooth3D({ className = '' }: { className?: string }) {
         pos[i + 2] = base[i + 2] * breathe * (1 + spread * (0.7 - rnd))
       }
       geo.attributes.position.needsUpdate = true
-      group.rotation.x += (targetX - group.rotation.x) * 0.05
-      group.rotation.y += (targetY + dragY + t * 0.25 - group.rotation.y) * 0.05
+      if (progressRef) {
+        // режим "истории": поворот и приближение управляются прокруткой
+        const p = progressRef.current
+        group.rotation.x += (targetX * 0.4 + Math.sin(p * Math.PI) * 0.35 - group.rotation.x) * 0.08
+        group.rotation.y += (p * Math.PI * 2.4 + targetY * 0.4 + t * 0.05 - group.rotation.y) * 0.08
+        camera.position.z += (7.6 - p * 2.6 - camera.position.z) * 0.08
+      } else {
+        group.rotation.x += (targetX - group.rotation.x) * 0.05
+        group.rotation.y += (targetY + dragY + t * 0.25 - group.rotation.y) * 0.05
+      }
       tooth.position.y = 0.15 + Math.sin(t) * 0.08
       rings.rotation.y = -t * 0.15
       renderer.render(scene, camera)
@@ -196,7 +204,7 @@ export default function Tooth3D({ className = '' }: { className?: string }) {
       renderer.dispose()
       el.removeChild(renderer.domElement)
     }
-  }, [])
+  }, [progressRef])
 
   return <div ref={host} className={className} aria-hidden="true" style={{ touchAction: 'pan-y' }} />
 }

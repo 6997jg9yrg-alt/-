@@ -5,6 +5,7 @@
 * { margin: 0; padding: 0; box-sizing: border-box; }
 html { scroll-behavior: smooth; }
 html, body { overflow-x: hidden; }
+@supports (overflow: clip) { html, body { overflow-x: clip; } }
 body { background: #F6F8F7; color: #15201E; font-family: Manrope, system-ui, sans-serif; }
 
 .h2 { @apply font-display font-medium uppercase text-4xl md:text-5xl tracking-tight; }
