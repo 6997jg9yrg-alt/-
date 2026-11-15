@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import * as C from '../content'
 import { useCountUp, useInView } from './hooks'
+import Carousel from './Carousel'
 
 const Arrow = () => (
   <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M4 12h16M14 6l6 6-6 6" /></svg>
@@ -226,7 +227,6 @@ export function Achievements() {
 
 /* ---------------- Отзывы ---------------- */
 export function Reviews() {
-  const list = [...C.reviews, ...C.reviews]
   return (
     <section id="reviews" className="py-24 md:py-32 overflow-hidden">
       <div className="max-w-[1240px] mx-auto px-5 md:px-8 flex flex-wrap items-end justify-between gap-8 mb-12">
@@ -239,9 +239,14 @@ export function Reviews() {
           </div>
         </div>
       </div>
-      <div className="marquee marquee-slow">
-        {list.map((r, i) => (
-          <figure key={i} className="shrink-0 w-[300px] md:w-[400px] mx-3 rounded-3xl bg-white border border-line p-7 flex flex-col gap-4">
+      <Carousel
+        label="Отзывы пациентов — листайте"
+        itemLabel="отзыв"
+        theme="light"
+        footer={<a href={C.clinic.gis} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 font-bold border-2 border-text rounded-full px-6 py-3 hover:bg-text hover:text-white transition-colors">Все отзывы в 2ГИС <Arrow /></a>}
+      >
+        {C.reviews.map((r, i) => (
+          <figure key={i} className="w-[calc(100vw-56px)] max-w-[400px] h-full mx-2 md:mx-3 rounded-3xl bg-white border border-line p-7 flex flex-col gap-4">
             <div className="flex text-amber-500 gap-0.5" aria-label={`${r.rating} из 5`}>{Array.from({ length: r.rating }, (_, k) => <Star key={k} />)}</div>
             <blockquote className="text-[17px] leading-relaxed">«{r.text}»</blockquote>
             <figcaption className="mt-auto flex items-center gap-3">
@@ -250,10 +255,7 @@ export function Reviews() {
             </figcaption>
           </figure>
         ))}
-      </div>
-      <div className="text-center mt-12">
-        <a href={C.clinic.gis} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 font-bold border-2 border-text rounded-full px-7 py-3.5 hover:bg-text hover:text-white transition-colors">Все отзывы в 2ГИС <Arrow /></a>
-      </div>
+      </Carousel>
     </section>
   )
 }
