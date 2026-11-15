@@ -143,9 +143,11 @@ export function Owner() {
         <p className="kicker text-teal">Кто стоит за клиникой</p>
         <h2 className="h2">{C.owner.name}</h2>
         <p className="text-lg text-teal font-bold">{C.owner.role}</p>
-        <blockquote className="font-display text-2xl md:text-3xl leading-snug text-text border-l-0">
-          «{C.owner.quote}»
-        </blockquote>
+        {C.owner.quote ? (
+          <blockquote className="font-display text-2xl md:text-3xl leading-snug text-text">«{C.owner.quote}»</blockquote>
+        ) : (
+          <p className="text-lg leading-relaxed text-sub max-w-xl">Руслан Райханетдинович — основатель Aktobe Dent и врач стоматолог-ортопед. Пациенты клиники ставят ей 5,0 в 2ГИС: более 1 400 оценок и 1 296 отзывов.</p>
+        )}
         <div className="flex flex-wrap gap-3">
           {C.owner.facts.map((f) => <span key={f} className="px-4 py-2 rounded-full border border-line bg-white text-sm font-semibold">{f}</span>)}
         </div>
