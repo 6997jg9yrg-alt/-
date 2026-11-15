@@ -42,7 +42,7 @@ export default function App() {
         <div className="max-w-[1240px] mx-auto px-5 md:px-8 mb-14 reveal">
           <p className="kicker text-mint mb-3">Команда</p>
           <h2 className="h2">Наша команда</h2>
-          <p className="text-sage mt-4 max-w-xl">Наведите на карточку — она повернётся за курсором.</p>
+          <p className="text-sage mt-4 max-w-xl">Листайте карточки — пальцем, мышкой или стрелками.</p>
         </div>
         <Doctors />
 
