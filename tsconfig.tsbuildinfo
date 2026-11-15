@@ -1,1 +1,1 @@
-{"root":["./src/App.tsx","./src/content.ts","./src/main.tsx"],"version":"5.6.3"}
+{"root":["./src/App.tsx","./src/content.ts","./src/main.tsx","./src/vite-env.d.ts","./src/components/Chart3D.tsx","./src/components/Doctors.tsx","./src/components/Sections.tsx","./src/components/Tooth3D.tsx","./src/components/hooks.ts"],"version":"5.6.3"}
