@@ -1,6 +1,7 @@
 # Aktobe Dent — сайт стоматологии
 
 Сайт: https://6997jg9yrg-alt.github.io/-/
+Второй формат (история при прокрутке): https://6997jg9yrg-alt.github.io/-/story.html — код в `src/story/`
 React 18 + TypeScript + Vite + Tailwind CSS 3 + three.js.
 
 ## Как поменять тексты, фото, цены, отзывы
