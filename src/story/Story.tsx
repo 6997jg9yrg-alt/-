@@ -3,6 +3,7 @@ import * as C from '../content'
 import Tooth3D from '../components/Tooth3D'
 import { ToothIcon } from '../components/Sections'
 import { ease, seg, useScrollProgress } from './useScrollProgress'
+import MusicButton from './Music'
 
 const base = import.meta.env.BASE_URL
 
@@ -38,10 +39,10 @@ function Opening() {
           <p className="kicker text-teal">Стоматология в Актобе</p>
           <p className="kicker text-sub text-right">История<br />вашей улыбки</p>
         </div>
-        <h1 className="absolute left-5 md:left-8 bottom-10 md:bottom-14 font-display font-medium uppercase text-ink leading-[0.9] text-[15vw] md:text-[11vw] pointer-events-none" style={{ opacity: fadeIntro, transform: `translateY(${(1 - fadeIntro) * 40}px)` }}>
+        <h1 className="absolute left-5 md:left-8 bottom-24 md:bottom-28 font-display font-medium uppercase text-ink leading-[0.9] text-[15vw] md:text-[11vw] pointer-events-none" style={{ opacity: fadeIntro, transform: `translateY(${(1 - fadeIntro) * 40}px)` }}>
           Aktobe<br />Dent
         </h1>
-        <p className="absolute right-5 md:right-8 bottom-12 md:bottom-16 text-sub text-sm flex items-center gap-2" style={{ opacity: fadeIntro }}>
+        <p className="absolute right-5 md:right-8 bottom-7 md:bottom-9 text-sub text-sm flex items-center gap-2" style={{ opacity: fadeIntro }}>
           Листайте вниз
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true" className="animate-bounce"><path d="M12 4v16M6 14l6 6 6-6" /></svg>
         </p>
@@ -297,6 +298,7 @@ export default function Story() {
       <Trust />
       <Team />
       <Final />
+      <MusicButton />
     </main>
   )
 }
