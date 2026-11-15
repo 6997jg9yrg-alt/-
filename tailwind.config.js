@@ -4,17 +4,18 @@ export default {
   theme: {
     extend: {
       colors: {
-        ink: '#061412',
-        deep: '#030B0A',
-        mint: '#5EEAC4',
-        teal: '#0E7C70',
-        cream: '#F5EFE2',
-        sage: '#B9CCC7',
-        muted: '#8FA9A3',
-        paper: '#F6F8F7',
-        line: '#E2E8E6',
-        text: '#15201E',
-        sub: '#3D4B48',
+        // фирменные цвета Aktobe Dent: чёрный + жёлтый (как логотип и бейджики)
+        ink: '#0B0B0C',
+        deep: '#000000',
+        mint: '#F5D43B', // фирменный жёлтый (акцент на тёмном)
+        teal: '#6E5B00', // тёмно-жёлтый для текста на светлом фоне (контраст ≥ 4.5)
+        cream: '#F7F4EC',
+        sage: '#BEBCB4',
+        muted: '#8F8D85',
+        paper: '#F6F5F1',
+        line: '#E7E5DF',
+        text: '#151515',
+        sub: '#46443E',
       },
       fontFamily: {
         sans: ['Manrope', 'system-ui', 'sans-serif'],

@@ -91,7 +91,7 @@ export default function Tooth3D({ className = '', progressRef }: { className?: s
     const geo = new THREE.BufferGeometry()
     geo.setAttribute('position', new THREE.BufferAttribute(pos, 3))
     const mat = new THREE.PointsMaterial({
-      color: 0x5eeac4, size: 0.055, map: tex, transparent: true, depthWrite: false,
+      color: 0xf5d43b, size: 0.055, map: tex, transparent: true, depthWrite: false,
       blending: THREE.AdditiveBlending, sizeAttenuation: true,
     })
     const tooth = new THREE.Points(geo, mat)
@@ -125,7 +125,7 @@ export default function Tooth3D({ className = '', progressRef }: { className?: s
     const starGeo = new THREE.BufferGeometry()
     starGeo.setAttribute('position', new THREE.BufferAttribute(stars, 3))
     scene.add(new THREE.Points(starGeo, new THREE.PointsMaterial({
-      color: 0x5eeac4, size: 0.035, map: tex, transparent: true, opacity: 0.45, depthWrite: false,
+      color: 0xf5d43b, size: 0.035, map: tex, transparent: true, opacity: 0.45, depthWrite: false,
     })))
 
     // взаимодействие: курсор поворачивает, перетаскивание крутит, клик — "взрыв"

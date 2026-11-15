@@ -8,9 +8,9 @@ const GAP = 44
 
 function Bar({ x, h, label, value, delay, grow, hi }: { x: number; h: number; label: string; value: number; delay: number; grow: boolean; hi: boolean }) {
   const height = grow ? h : 2
-  const front = hi ? '#5EEAC4' : '#2BB59B'
-  const side = hi ? '#33C7A6' : '#1B8D79'
-  const top = hi ? '#A7F5DF' : '#5EEAC4'
+  const front = hi ? '#F5D43B' : '#C9A814'
+  const side = hi ? '#D9B81F' : '#9E8410'
+  const top = hi ? '#FFE97A' : '#F5D43B'
   const face = { width: W, height, top: 0 } as const
   return (
     <div className="bar3d" style={{ left: x, width: W, height, transitionDelay: `${delay}ms` }}>
@@ -80,7 +80,7 @@ export default function Chart3D() {
             style={{
               position: 'absolute', left: -60, top: -(W + 120) / 2, width: total + 120, height: W + 120,
               transform: 'rotateX(90deg)',
-              background: 'repeating-linear-gradient(90deg, rgba(94,234,196,.18) 0 1px, transparent 1px 36px), repeating-linear-gradient(0deg, rgba(94,234,196,.18) 0 1px, transparent 1px 36px), rgba(94,234,196,.05)',
+              background: 'repeating-linear-gradient(90deg, rgba(245,212,59,.18) 0 1px, transparent 1px 36px), repeating-linear-gradient(0deg, rgba(245,212,59,.18) 0 1px, transparent 1px 36px), rgba(245,212,59,.05)',
               borderRadius: 12,
             }}
           />

@@ -1,13 +1,14 @@
 import { Children, useEffect, useRef, useState, type ReactNode } from 'react'
+import { useT } from '../i18n'
 
 type Theme = 'dark' | 'light'
 
-const ArrowBtn = ({ dir, onClick, disabled, theme, item }: { dir: 'prev' | 'next'; onClick: () => void; disabled: boolean; theme: Theme; item: string }) => (
+const ArrowBtn = ({ dir, onClick, disabled, theme, label }: { dir: 'prev' | 'next'; onClick: () => void; disabled: boolean; theme: Theme; label: string }) => (
   <button
     type="button"
     onClick={onClick}
     disabled={disabled}
-    aria-label={dir === 'prev' ? `Предыдущий ${item}` : `Следующий ${item}`}
+    aria-label={label}
     className={`w-12 h-12 md:w-14 md:h-14 rounded-full border flex items-center justify-center transition-colors disabled:opacity-30 disabled:pointer-events-none ${
       theme === 'dark' ? 'border-white/25 text-cream hover:bg-cream hover:text-ink' : 'border-text/25 text-text hover:bg-text hover:text-white'
     }`}
@@ -19,7 +20,8 @@ const ArrowBtn = ({ dir, onClick, disabled, theme, item }: { dir: 'prev' | 'next
 )
 
 /** Карусель: свайп пальцем, перетаскивание мышкой, стрелки, клавиши ← →, медленная автопрокрутка с паузой */
-export default function Carousel({ children, label, itemLabel, theme, footer }: { children: ReactNode; label: string; itemLabel: string; theme: Theme; footer?: ReactNode }) {
+export default function Carousel({ children, label, theme, footer }: { children: ReactNode; label: string; theme: Theme; footer?: ReactNode }) {
+  const t = useT()
   const track = useRef<HTMLDivElement>(null)
   const pauseUntil = useRef(0)
   const drag = useRef<{ x: number; left: number; moved: boolean } | null>(null)
@@ -91,9 +93,9 @@ export default function Carousel({ children, label, itemLabel, theme, footer }: 
         ))}
       </div>
       <div className="max-w-[1240px] mx-auto px-5 md:px-8 mt-8 flex flex-wrap items-center gap-3">
-        <ArrowBtn dir="prev" onClick={() => go(-1)} disabled={edge.start} theme={theme} item={itemLabel} />
-        <ArrowBtn dir="next" onClick={() => go(1)} disabled={edge.end} theme={theme} item={itemLabel} />
-        <span className={`ml-2 text-sm ${theme === 'dark' ? 'text-sage' : 'text-sub'}`}>Листайте или нажимайте стрелки</span>
+        <ArrowBtn dir="prev" onClick={() => go(-1)} disabled={edge.start} theme={theme} label={t('Назад')} />
+        <ArrowBtn dir="next" onClick={() => go(1)} disabled={edge.end} theme={theme} label={t('Вперёд')} />
+        <span className={`ml-2 text-sm ${theme === 'dark' ? 'text-sage' : 'text-sub'}`}>{t('Листайте или нажимайте стрелки')}</span>
         {footer && <div className="w-full sm:w-auto sm:ml-auto">{footer}</div>}
       </div>
     </div>
