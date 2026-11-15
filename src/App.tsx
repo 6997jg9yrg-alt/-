@@ -4,7 +4,7 @@ import Chart3D from './components/Chart3D'
 import Doctors from './components/Doctors'
 import { useRevealAll } from './components/hooks'
 import {
-  Achievements, Arrow, Booking, Footer, HeroStats, History, Marquee, MobileBar, Navbar, Owner, Prices, Reviews, Services,
+  Achievements, Arrow, Promo, Booking, Footer, HeroStats, History, Marquee, MobileBar, Navbar, Owner, Prices, Reviews, Services,
 } from './components/Sections'
 
 export default function App() {
@@ -33,6 +33,7 @@ export default function App() {
       </section>
 
       <Marquee />
+      <Promo />
       <Owner />
       <History />
 

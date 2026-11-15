@@ -90,6 +90,35 @@ export function Marquee() {
   )
 }
 
+/* ---------------- Акция с видео ---------------- */
+export function Promo() {
+  const base = import.meta.env.BASE_URL
+  const pick = () => window.dispatchEvent(new CustomEvent('set-service', { detail: C.promo.service }))
+  return (
+    <section id="promo" className="bg-ink text-cream">
+      <div className="max-w-[1240px] mx-auto px-5 md:px-8 py-20 md:py-28 grid lg:grid-cols-2 gap-10 lg:gap-16 items-center">
+        <div className="reveal relative order-2 lg:order-1">
+          <div className="absolute -inset-6 rounded-[3rem] bg-[#F14635]/25 blur-3xl" aria-hidden="true" />
+          <div className="relative rounded-[2rem] overflow-hidden aspect-[720/632] ring-1 ring-white/10">
+            <video src={base + C.promo.video} poster={base + C.promo.poster} autoPlay muted loop playsInline preload="metadata" className="w-full h-full object-cover" aria-label="Видео: установка виниров" />
+            <span className="absolute top-4 left-4 bg-[#F14635] text-white text-xs font-extrabold uppercase tracking-widest px-3 py-1.5 rounded-full animate-pulse">Акция</span>
+          </div>
+        </div>
+        <div className="reveal order-1 lg:order-2 flex flex-col gap-6">
+          <p className="kicker text-[#FF7A6B]">{C.promo.kicker}</p>
+          <h2 className="font-display font-medium uppercase leading-[1] text-4xl md:text-6xl">{C.promo.title}</h2>
+          <p className="text-xl md:text-2xl text-cream font-semibold">{C.promo.text}</p>
+          <p className="text-sage text-lg">{C.promo.note}</p>
+          <div className="flex flex-wrap gap-3 pt-2">
+            <a href="#booking" onClick={pick} className="bg-[#F14635] text-white font-extrabold text-lg px-8 py-4 rounded-full inline-flex items-center gap-2.5 hover:bg-[#d93a2a] transition-colors">{C.promo.cta} <Arrow /></a>
+            <a href={`https://wa.me/${C.clinic.whatsapp}?text=${encodeURIComponent('Здравствуйте! Хочу записаться по акции «чистка в подарок».')}`} target="_blank" rel="noopener noreferrer" className="border-[1.5px] border-cream/50 font-bold text-lg px-8 py-4 rounded-full hover:bg-cream hover:text-ink transition-colors">Написать в WhatsApp</a>
+          </div>
+        </div>
+      </div>
+    </section>
+  )
+}
+
 /* ---------------- Владелец ---------------- */
 export function Owner() {
   const src = C.photoUrl(C.owner.photo)
@@ -278,6 +307,11 @@ function Faq() {
 export function Booking() {
   const [name, setName] = useState('')
   const [service, setService] = useState(C.bookingOptions[0])
+  useEffect(() => {
+    const f = (e: Event) => setService((e as CustomEvent<string>).detail)
+    window.addEventListener('set-service', f)
+    return () => window.removeEventListener('set-service', f)
+  }, [])
   const [note, setNote] = useState('')
   const lines = [`Здравствуйте! Хочу записаться в ${C.clinic.name}.`]
   if (name.trim()) lines.push('Имя: ' + name.trim())
