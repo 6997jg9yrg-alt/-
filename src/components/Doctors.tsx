@@ -1,4 +1,5 @@
-import { useEffect, useRef, useState } from 'react'
+import { useRef } from 'react'
+import Carousel from './Carousel'
 import { doctors, photoUrl } from '../content'
 
 function Silhouette() {
@@ -35,7 +36,7 @@ function DoctorCard({ d, i }: { d: (typeof doctors)[number]; i: number }) {
   const src = photoUrl(d.photo)
 
   return (
-    <div className="float shrink-0 snap-start px-2 md:px-3 first:pl-5 md:first:pl-8 last:pr-5 md:last:pr-8" style={{ animationDelay: `${(i % 5) * -1.2}s`, perspective: 900 }}>
+    <div className="float px-2 md:px-3" style={{ animationDelay: `${(i % 5) * -1.2}s`, perspective: 900 }}>
       <div
         ref={card}
         onPointerMove={onMove}
@@ -65,103 +66,10 @@ function DoctorCard({ d, i }: { d: (typeof doctors)[number]; i: number }) {
   )
 }
 
-const ArrowBtn = ({ dir, onClick, disabled }: { dir: 'prev' | 'next'; onClick: () => void; disabled: boolean }) => (
-  <button
-    type="button"
-    onClick={onClick}
-    disabled={disabled}
-    aria-label={dir === 'prev' ? 'Предыдущий врач' : 'Следующий врач'}
-    className="w-12 h-12 md:w-14 md:h-14 rounded-full border border-white/25 text-cream flex items-center justify-center hover:bg-cream hover:text-ink transition-colors disabled:opacity-30 disabled:pointer-events-none"
-  >
-    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-      {dir === 'prev' ? <path d="M20 12H4M10 6l-6 6 6 6" /> : <path d="M4 12h16M14 6l6 6-6 6" />}
-    </svg>
-  </button>
-)
-
 export default function Doctors() {
-  const track = useRef<HTMLDivElement>(null)
-  const pauseUntil = useRef(0)
-  const drag = useRef<{ x: number; left: number; moved: boolean } | null>(null)
-  const [edge, setEdge] = useState({ start: true, end: false })
-  const [dragging, setDragging] = useState(false)
-
-  const pause = (ms = 8000) => { pauseUntil.current = Date.now() + ms }
-  const step = () => {
-    const el = track.current
-    const card = el?.querySelector<HTMLElement>('.snap-start')
-    return card ? card.offsetWidth : 300
-  }
-  const go = (dir: 1 | -1) => {
-    pause()
-    track.current?.scrollBy({ left: dir * step(), behavior: 'smooth' })
-  }
-  const onScroll = () => {
-    const el = track.current
-    if (!el) return
-    setEdge({ start: el.scrollLeft < 8, end: el.scrollLeft + el.clientWidth > el.scrollWidth - 8 })
-  }
-
-  // медленная автопрокрутка: по одной карточке, пока человек сам не листает
-  useEffect(() => {
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
-    const id = window.setInterval(() => {
-      const el = track.current
-      if (!el || Date.now() < pauseUntil.current) return
-      const atEnd = el.scrollLeft + el.clientWidth > el.scrollWidth - 8
-      el.scrollTo({ left: atEnd ? 0 : el.scrollLeft + step(), behavior: 'smooth' })
-    }, 3500)
-    onScroll()
-    return () => window.clearInterval(id)
-  }, [])
-
-  // перетаскивание мышкой на компьютере (на телефоне — обычный свайп)
-  const onPointerDown = (e: React.PointerEvent) => {
-    pause()
-    if (e.pointerType !== 'mouse' || !track.current) return
-    drag.current = { x: e.clientX, left: track.current.scrollLeft, moved: false }
-  }
-  const onPointerMove = (e: React.PointerEvent) => {
-    const d = drag.current
-    if (!d || !track.current) return
-    const dx = e.clientX - d.x
-    if (!d.moved && Math.abs(dx) > 5) { d.moved = true; setDragging(true) }
-    if (d.moved) track.current.scrollLeft = d.left - dx
-  }
-  const endDrag = () => {
-    if (drag.current?.moved) {
-      setDragging(false)
-      // доводим до ближайшей карточки
-      const el = track.current
-      if (el) { const w = step(); el.scrollTo({ left: Math.round(el.scrollLeft / w) * w, behavior: 'smooth' }) }
-    }
-    drag.current = null
-  }
-
   return (
-    <div>
-      <div
-        ref={track}
-        onScroll={onScroll}
-        onPointerDown={onPointerDown}
-        onPointerMove={onPointerMove}
-        onPointerUp={endDrag}
-        onPointerLeave={endDrag}
-        onTouchStart={() => pause()}
-        onWheel={() => pause()}
-        onMouseEnter={() => pause(4000)}
-        className={`flex overflow-x-auto py-6 -my-6 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden select-none ${dragging ? 'cursor-grabbing' : 'cursor-grab snap-x snap-mandatory'}`}
-        tabIndex={0}
-        aria-label="Команда клиники — листайте"
-        onKeyDown={(e) => { if (e.key === 'ArrowRight') go(1); if (e.key === 'ArrowLeft') go(-1) }}
-      >
-        {doctors.map((d, i) => <DoctorCard key={i} d={d} i={i} />)}
-      </div>
-      <div className="max-w-[1240px] mx-auto px-5 md:px-8 mt-8 flex items-center gap-3">
-        <ArrowBtn dir="prev" onClick={() => go(-1)} disabled={edge.start} />
-        <ArrowBtn dir="next" onClick={() => go(1)} disabled={edge.end} />
-        <span className="ml-2 text-sage text-sm">Листайте или нажимайте стрелки</span>
-      </div>
-    </div>
+    <Carousel label="Команда клиники — листайте" itemLabel="врач" theme="dark">
+      {doctors.map((d, i) => <DoctorCard key={i} d={d} i={i} />)}
+    </Carousel>
   )
 }
