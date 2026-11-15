@@ -199,18 +199,18 @@ export function Reviews() {
           <span className="font-display text-7xl leading-none text-teal">5,0</span>
           <div>
             <div className="flex text-amber-500 gap-0.5" role="img" aria-label="5 из 5 звёзд">{[0, 1, 2, 3, 4].map((i) => <Star key={i} />)}</div>
-            <p className="text-sub text-sm mt-1">1 400+ оценок в 2ГИС</p>
+            <p className="text-sub text-sm mt-1">1 400+ оценок · 1 296 отзывов в 2ГИС</p>
           </div>
         </div>
       </div>
       <div className="marquee marquee-slow">
         {list.map((r, i) => (
-          <figure key={i} className="shrink-0 w-[300px] md:w-[380px] mx-3 rounded-3xl bg-white border border-line p-7 flex flex-col gap-4">
+          <figure key={i} className="shrink-0 w-[300px] md:w-[400px] mx-3 rounded-3xl bg-white border border-line p-7 flex flex-col gap-4">
             <div className="flex text-amber-500 gap-0.5" aria-label={`${r.rating} из 5`}>{Array.from({ length: r.rating }, (_, k) => <Star key={k} />)}</div>
             <blockquote className="text-[17px] leading-relaxed">«{r.text}»</blockquote>
             <figcaption className="mt-auto flex items-center gap-3">
-              <span className="w-10 h-10 rounded-full bg-ink text-mint font-bold flex items-center justify-center">{r.name.replace('[', '').charAt(0)}</span>
-              <span className="font-bold">{r.name}</span>
+              <span className="w-10 h-10 shrink-0 rounded-full bg-ink text-mint font-bold flex items-center justify-center">{r.name.charAt(0)}</span>
+              <span className="flex flex-col leading-tight"><span className="font-bold">{r.name}</span><span className="text-sm text-sub">{r.date} · 2ГИС</span></span>
             </figcaption>
           </figure>
         ))}
