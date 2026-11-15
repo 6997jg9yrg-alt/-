@@ -91,7 +91,7 @@ function Journey() {
     <section ref={ref} className="relative h-[460vh] bg-ink text-cream">
       <div className="sticky top-0 h-[100svh] overflow-hidden">
         <Tooth3D progressRef={live} className="absolute inset-0 md:left-[35%] top-[30%] md:top-0" />
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_70%_50%,rgba(94,234,196,.10),transparent_60%)] pointer-events-none" aria-hidden="true" />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_70%_50%,rgba(245,212,59,.10),transparent_60%)] pointer-events-none" aria-hidden="true" />
         <div className="relative z-10 h-full max-w-[1400px] mx-auto px-5 md:px-8 flex flex-col justify-start md:justify-center pt-24 md:pt-0 pointer-events-none">
           <p className="kicker text-mint mb-6">Ваш путь в клинике</p>
           <div className="relative h-[260px] md:h-[300px] max-w-md">
@@ -228,11 +228,11 @@ function Team() {
           {people.map((d, i) => (
             <figure key={i} className="w-[72vw] sm:w-[340px] md:w-[400px] shrink-0">
               <div className="aspect-[4/5] rounded-[1.75rem] overflow-hidden bg-deep">
-                <img src={`${base}photos/${d.photo}`} alt={d.name.startsWith('[') ? d.role : d.name} className="w-full h-full object-cover" style={{ transform: `scale(${1.12 - Math.min(1, Math.abs(p * (people.length - 1) - i)) * 0.12})` }} loading="lazy" />
+                <img src={`${base}photos/${d.photo}`} alt={d.name || d.role} className="w-full h-full object-cover" style={{ transform: `scale(${1.12 - Math.min(1, Math.abs(p * (people.length - 1) - i)) * 0.12})` }} loading="lazy" />
               </div>
               <figcaption className="mt-4">
                 <p className="kicker text-mint">{d.role}</p>
-                <p className="text-xl font-bold mt-1">{d.name}</p>
+                {d.name && <p className="text-xl font-bold mt-1">{d.name}</p>}
               </figcaption>
             </figure>
           ))}
@@ -252,7 +252,7 @@ function Final() {
           <span className="inline-block bg-[#F14635] text-white text-xs font-extrabold uppercase tracking-widest px-3 py-1.5 rounded-full mb-6">Акция: чистка в подарок при лечении</span>
           <h2 className="font-display font-medium uppercase text-ink leading-[0.92] text-6xl md:text-8xl">Первый шаг —<br />бесплатный осмотр</h2>
           <div className="mt-10 flex flex-wrap gap-3">
-            <a href={`https://wa.me/${C.clinic.whatsapp}?text=${msg}`} target="_blank" rel="noopener noreferrer" className="bg-teal text-white font-extrabold text-lg px-8 py-4 rounded-full hover:bg-[#0A665C] transition-colors">Записаться в WhatsApp</a>
+            <a href={`https://wa.me/${C.clinic.whatsapp}?text=${msg}`} target="_blank" rel="noopener noreferrer" className="bg-teal text-white font-extrabold text-lg px-8 py-4 rounded-full hover:bg-black transition-colors">Записаться в WhatsApp</a>
             <a href={C.clinic.phoneHref} className="border-2 border-ink text-ink font-bold text-lg px-8 py-4 rounded-full hover:bg-ink hover:text-white transition-colors">{C.clinic.phone}</a>
           </div>
         </div>

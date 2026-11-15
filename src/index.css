@@ -24,6 +24,7 @@ body { background: #F6F8F7; color: #15201E; font-family: Manrope, system-ui, san
 /* парящие врачи */
 @keyframes float { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-14px); } }
 .float { animation: float 6s ease-in-out infinite; }
+.float:hover, .float:focus-within { animation-play-state: paused; }
 
 /* 3D-диаграмма */
 .bar3d { position: absolute; bottom: 0; transform-style: preserve-3d; transition: height 1.4s cubic-bezier(.16,1,.3,1); }
