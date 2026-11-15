@@ -1,6 +1,8 @@
+import { lazy, Suspense } from 'react'
 import { chart, hero } from './content'
-import Tooth3D from './components/Tooth3D'
-import Chart3D from './components/Chart3D'
+// 3D-зуб и диаграмма грузятся отдельно, после основной страницы — сайт открывается быстрее
+const Tooth3D = lazy(() => import('./components/Tooth3D'))
+const Chart3D = lazy(() => import('./components/Chart3D'))
 import Doctors from './components/Doctors'
 import { useRevealAll } from './components/hooks'
 import { useT } from './i18n'
@@ -18,20 +20,23 @@ export default function App() {
       {/* ГЛАВНЫЙ ЭКРАН с 3D-зубом */}
       <section className="relative bg-ink text-cream overflow-hidden lg:min-h-[100svh] flex flex-col lg:flex-row lg:items-center">
         <div className="absolute inset-0 pointer-events-none bg-[radial-gradient(ellipse_at_70%_50%,rgba(245,212,59,.10),transparent_60%)]" aria-hidden="true" />
-        <div className="relative z-10 max-w-[1240px] w-full mx-auto px-5 md:px-8 pt-28 lg:py-32 pointer-events-none">
-          <div className="max-w-[620px] flex flex-col gap-7">
+        <div className="relative z-10 max-w-[1240px] w-full mx-auto px-5 md:px-8 pt-20 sm:pt-24 lg:py-32 pointer-events-none">
+          <div className="max-w-[620px] flex flex-col gap-4 sm:gap-5 md:gap-7">
             <p className="kicker text-mint">{t(hero.kicker)}</p>
-            <h1 className="font-display font-medium uppercase leading-[0.98] text-[clamp(48px,7vw,108px)]">{t(hero.title)}</h1>
-            <p className="text-lg md:text-xl leading-relaxed text-sage max-w-[500px]">{t(hero.text)}</p>
+            <h1 className="font-display font-medium uppercase leading-[0.98] text-[clamp(34px,7vw,108px)]">{t(hero.title)}</h1>
+            <p className="hidden sm:block text-base md:text-xl leading-relaxed text-sage max-w-[500px]">{t(hero.text)}</p>
+            <p className="sm:hidden text-base leading-snug text-sage">{t(hero.short)}</p>
             <div className="flex flex-wrap gap-3 pointer-events-auto">
-              <a href="#booking" className="bg-mint text-ink font-extrabold text-base md:text-lg px-7 py-4 rounded-full inline-flex items-center gap-2.5 hover:bg-white transition-colors">{t('Записаться на консультацию')} <Arrow /></a>
-              <a href="#about" className="border-[1.5px] border-cream/50 font-bold text-base md:text-lg px-7 py-4 rounded-full hover:bg-cream hover:text-ink transition-colors">{t('О клинике')}</a>
+              <a href="#booking" className="bg-mint text-ink font-extrabold text-base md:text-lg px-6 md:px-7 py-3.5 md:py-4 rounded-full inline-flex items-center gap-2.5 hover:bg-white transition-colors">{t('Записаться на консультацию')} <Arrow /></a>
+              <a href="#about" className="hidden sm:inline-flex border-[1.5px] border-cream/50 font-bold text-base md:text-lg px-7 py-4 rounded-full hover:bg-cream hover:text-ink transition-colors">{t('О клинике')}</a>
             </div>
             <UrgentCall />
             <HeroStats />
           </div>
         </div>
-        <Tooth3D className="relative z-0 w-full h-[400px] -mt-4 mb-6 lg:m-0 lg:absolute lg:inset-0 lg:left-[38%] lg:h-auto cursor-grab active:cursor-grabbing" />
+        <Suspense fallback={<div className="relative z-0 w-full h-[340px] sm:h-[400px] -mt-2 mb-6 lg:m-0 lg:absolute lg:inset-0 lg:left-[38%] lg:h-auto cursor-grab active:cursor-grabbing" />}>
+          <Tooth3D className="relative z-0 w-full h-[340px] sm:h-[400px] -mt-2 mb-6 lg:m-0 lg:absolute lg:inset-0 lg:left-[38%] lg:h-auto cursor-grab active:cursor-grabbing" />
+        </Suspense>
         <p className="hidden lg:block absolute right-8 bottom-7 kicker text-muted pointer-events-none">{t('Покрутите зуб мышкой · нажмите')}</p>
       </section>
 
@@ -55,7 +60,7 @@ export default function App() {
             <div className="reveal">
               <p className="kicker text-mint mb-3">{t('Достижения')}</p>
               <h2 className="h2 mb-3">{t(chart.title)}</h2>
-              <Chart3D />
+              <Suspense fallback={<div className="h-[440px]" />}><Chart3D /></Suspense>
             </div>
             <Achievements />
           </div>

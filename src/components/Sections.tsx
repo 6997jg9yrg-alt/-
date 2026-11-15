@@ -40,19 +40,19 @@ export function Navbar() {
   return (
     <>
       <header className={`fixed top-0 inset-x-0 z-50 transition-all duration-500 ${scrolled || open ? 'bg-ink/90 backdrop-blur-md border-b border-white/5' : ''}`}>
-        <div className="max-w-[1240px] mx-auto px-5 md:px-8 h-16 md:h-20 flex items-center justify-between gap-4">
-          <a href="#top" className="flex items-center gap-2.5 text-cream shrink-0">
-            <ToothIcon className="w-8 h-8 text-mint" />
-            <span className="text-xl font-extrabold tracking-tight">Aktobe Dent</span>
+        <div className="max-w-[1240px] mx-auto px-4 sm:px-5 md:px-8 h-16 md:h-20 flex items-center justify-between gap-2 sm:gap-4">
+          <a href="#top" className="flex items-center gap-2 sm:gap-2.5 text-cream shrink-0">
+            <ToothIcon className="w-7 h-7 sm:w-8 sm:h-8 text-mint" />
+            <span className="text-lg sm:text-xl font-extrabold tracking-tight">Aktobe Dent</span>
           </a>
           <nav className="hidden xl:flex gap-5 text-[13px] font-semibold uppercase tracking-[0.1em] whitespace-nowrap" aria-label={t('Основное меню')}>
             {NAV.map(([h, label]) => <a key={h} href={h} className="text-sage hover:text-white transition-colors">{t(label)}</a>)}
           </nav>
-          <div className="flex items-center gap-3 md:gap-4">
+          <div className="flex items-center gap-1.5 sm:gap-3 md:gap-4">
             <LangSwitch />
             <a href={C.clinic.phoneHref} className="hidden md:inline text-cream font-bold whitespace-nowrap">{C.clinic.phone}</a>
             <a href="#booking" className="hidden md:inline bg-mint text-ink font-bold text-sm px-5 py-3 rounded-full hover:bg-white transition-colors">{t('Записаться')}</a>
-            <button type="button" aria-label={t('Меню')} aria-expanded={open} onClick={() => setOpen(!open)} className="xl:hidden w-11 h-11 flex flex-col items-center justify-center gap-1.5">
+            <button type="button" aria-label={t('Меню')} aria-expanded={open} onClick={() => setOpen(!open)} className="xl:hidden shrink-0 w-11 h-11 flex flex-col items-center justify-center gap-1.5">
               <span className={`block w-6 h-[2px] bg-cream transition-transform duration-500 ${open ? 'rotate-45 translate-y-[4px]' : ''}`} />
               <span className={`block w-6 h-[2px] bg-cream transition-transform duration-500 ${open ? '-rotate-45 -translate-y-[4px]' : ''}`} />
             </button>
@@ -77,17 +77,17 @@ function Stat({ s, run }: { s: (typeof C.stats)[number]; run: boolean }) {
   const n = useCountUp(s.value, run)
   return (
     <div>
-      <strong className="block font-display font-medium text-3xl md:text-4xl text-cream">
+      <strong className="block font-display font-medium text-2xl sm:text-3xl md:text-4xl text-cream">
         {n.toLocaleString('ru-RU', { minimumFractionDigits: s.decimals, maximumFractionDigits: s.decimals })}{s.suffix}
       </strong>
-      <span className="text-sage text-sm">{t(s.label)}</span>
+      <span className="block text-sage text-xs sm:text-sm leading-tight">{t(s.label)}</span>
     </div>
   )
 }
 export function HeroStats() {
   const [ref, seen] = useInView<HTMLDivElement>(0.2)
   return (
-    <div ref={ref} className="flex flex-wrap gap-8 md:gap-12 pt-2">
+    <div ref={ref} className="grid grid-cols-3 gap-3 max-w-[360px] sm:flex sm:max-w-none sm:gap-8 md:gap-12 pt-1 md:pt-2">
       {C.stats.map((s) => <Stat key={s.label} s={s} run={seen} />)}
     </div>
   )
