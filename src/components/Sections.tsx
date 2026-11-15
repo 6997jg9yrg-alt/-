@@ -130,9 +130,14 @@ export function History() {
   return (
     <section className="bg-white border-y border-line">
       <div className="max-w-[1240px] mx-auto px-5 md:px-8 py-24 md:py-32">
-        <div className="reveal max-w-2xl mb-14">
-          <p className="kicker text-teal mb-3">История</p>
-          <h2 className="h2">Как росла клиника</h2>
+        <div className="grid lg:grid-cols-2 gap-10 items-end mb-16">
+          <div className="reveal">
+            <p className="kicker text-teal mb-3">История</p>
+            <h2 className="h2">Как росла клиника</h2>
+          </div>
+          <div className="reveal rounded-[2rem] overflow-hidden aspect-[16/10]">
+            <img src={C.photoUrl(C.clinicPhoto)} alt="Врач Aktobe Dent на приёме" className="w-full h-full object-cover hover:scale-105 transition-transform duration-700" loading="lazy" />
+          </div>
         </div>
         <ol className="relative grid gap-10 md:grid-cols-5 md:gap-6">
           <div className="hidden md:block absolute left-0 right-0 top-[34px] h-[2px] bg-line" aria-hidden="true" />
@@ -237,7 +242,11 @@ export function Prices() {
               </div>
             ))}
           </div>
-          <p className="text-sm text-sub mt-4">Точная стоимость определяется на бесплатной консультации.</p>
+          <p className="text-sm text-sub mt-4">Цены зависят от ситуации: врач назовёт точную стоимость на бесплатной консультации — до начала лечения.</p>
+          <div className="mt-6 flex flex-wrap items-center gap-2">
+            <span className="text-sm font-bold mr-1">Оплата:</span>
+            {C.payment.map((p) => <span key={p} className="px-3 py-1.5 rounded-full bg-[#F14635] text-white text-sm font-bold">{p}</span>)}
+          </div>
         </div>
         <Faq />
       </div>
