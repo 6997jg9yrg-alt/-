@@ -424,7 +424,6 @@ export function Footer() {
     <footer className="bg-deep text-muted text-sm pb-24 md:pb-0">
       <div className="max-w-[1240px] mx-auto px-5 md:px-8 py-8 flex flex-wrap justify-between gap-3">
         <span>© {new Date().getFullYear()} {C.clinic.name}. {t(C.clinic.license)}.</span>
-        <a href={`${import.meta.env.BASE_URL}story.html`} className="text-mint font-bold">{t('Версия-история ↗')}</a>
         <span>{t('Имеются противопоказания, необходима консультация специалиста.')}</span>
       </div>
     </footer>
