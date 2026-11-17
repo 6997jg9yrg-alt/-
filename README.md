@@ -16,3 +16,7 @@ React 18 + TypeScript + Vite + Tailwind CSS 3 + three.js.
 npm install
 npm run dev
 ```
+
+## Памятка для следующих чатов
+
+Всё о проекте, договорённостях и том, что осталось сделать, — в файле `CLAUDE.md`.
