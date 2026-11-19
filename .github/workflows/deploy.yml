@@ -34,3 +34,34 @@ jobs:
           path: dist
       - id: deployment
         uses: actions/deploy-pages@v4
+
+  # Загрузка на хостинг клиники (ps.kz, Plesk) — для адреса aktobedent.kz.
+  # Работает, только когда в Settings → Secrets → Actions добавлен секрет FTP_PASSWORD.
+  hosting:
+    runs-on: ubuntu-latest
+    env:
+      FTP_PASSWORD: ${{ secrets.FTP_PASSWORD }}
+    steps:
+      - name: Нет пароля хостинга — пропускаем
+        if: env.FTP_PASSWORD == ''
+        run: echo "Секрет FTP_PASSWORD не задан, загрузка на хостинг пропущена."
+      - uses: actions/checkout@v4
+        if: env.FTP_PASSWORD != ''
+      - uses: actions/setup-node@v4
+        if: env.FTP_PASSWORD != ''
+        with:
+          node-version: 20
+          cache: npm
+      - run: npm ci && npm run build
+        if: env.FTP_PASSWORD != ''
+      - name: Загрузка на хостинг ps.kz
+        if: env.FTP_PASSWORD != ''
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: srv-plesk36.ps.kz
+          username: aktobew
+          password: ${{ secrets.FTP_PASSWORD }}
+          protocol: ftps
+          security: loose
+          local-dir: ./dist/
+          server-dir: ./httpdocs/
