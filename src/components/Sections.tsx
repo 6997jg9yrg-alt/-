@@ -344,14 +344,19 @@ export function Booking() {
   const t = useT()
   const { lang } = useLang()
   const [name, setName] = useState('')
-  const [service, setService] = useState(C.bookingOptions[0])
+  const [service, setService] = useState('')
+  const [when, setWhen] = useState('')
   const [doctor, setDoctor] = useState('')
   const [note, setNote] = useState('')
   const [flash, setFlash] = useState(false)
+  const pick = (label: string) => {
+    setService(label)
+    if (C.bookingOptions.find((o) => o.label === label)?.urgent) setWhen('Как можно скорее')
+  }
   useEffect(() => {
     const f = (e: Event) => {
       const d = (e as CustomEvent<{ service?: string; doctor?: string }>).detail
-      if (d.service) setService(d.service)
+      if (d.service) pick(d.service)
       if (d.doctor !== undefined) setDoctor(d.doctor)
       setFlash(true); window.setTimeout(() => setFlash(false), 1600)
     }
@@ -359,20 +364,24 @@ export function Booking() {
     return () => window.removeEventListener('booking-preset', f)
   }, [])
 
-  const lines = [t('Здравствуйте! Хочу записаться в Aktobe Dent.')]
+  const opt = C.bookingOptions.find((o) => o.label === service)
+  const lines = [`${t('Здравствуйте!')} ${t(opt ? opt.msg : 'Хочу записаться на приём.')}`]
+  if (when) lines.push(`${t('Когда удобно:')} ${t(when).toLowerCase()}`)
   if (name.trim()) lines.push(`${t('Имя:')} ${name.trim()}`)
-  lines.push(`${t('Вопрос:')} ${t(service)}`)
   if (doctor) lines.push(`${t('Врач')}: ${doctor}`)
   if (note.trim()) lines.push(`${t('Комментарий:')} ${note.trim()}`)
-  const wa = `https://wa.me/${C.clinic.whatsapp}?text=${encodeURIComponent(lines.join('\n'))}`
+  const text = lines.join('\n')
+  const wa = `https://wa.me/${C.clinic.whatsapp}?text=${encodeURIComponent(text)}`
   const input = 'w-full text-base px-4 py-3.5 border-[1.5px] border-[#D6D3CA] rounded-xl bg-white focus:outline-none focus:border-ink'
+  const chip = (on: boolean) =>
+    `flex items-start gap-2 text-left rounded-2xl border-[1.5px] px-3 py-3 text-[15px] font-semibold leading-snug transition-colors ${on ? 'border-ink bg-mint text-ink' : 'border-[#D6D3CA] bg-white hover:border-ink'}`
 
   return (
     <section id="booking" className="bg-ink text-white">
       <div id="contacts" className="max-w-[1240px] mx-auto px-5 md:px-8 py-24 md:py-32 grid lg:grid-cols-2 gap-12">
         <div className="flex flex-col gap-6">
           <h2 className="h2 text-cream">{t('Запишитесь на приём')}</h2>
-          <p className="text-sage text-lg leading-relaxed">{t('Заполните форму — откроется WhatsApp с готовым сообщением. Останется нажать «Отправить».')}</p>
+          <p className="text-sage text-lg leading-relaxed">{t('Выберите, что беспокоит, — откроется WhatsApp с готовым сообщением. Останется нажать «Отправить».')}</p>
           <dl className="grid gap-3 text-cream/90">
             <div><dt className="inline text-muted">{t('Адрес:')} </dt><dd className="inline">{t(C.clinic.address)}</dd></div>
             <div><dt className="inline text-muted">{t('Телефон:')} </dt><dd className="inline"><a href={C.clinic.phoneHref} className="font-bold text-cream">{C.clinic.phone}</a></dd></div>
@@ -390,16 +399,32 @@ export function Booking() {
           />
         </div>
         <form
-          className={`bg-white text-text rounded-3xl p-7 md:p-9 flex flex-col gap-5 self-start transition-shadow duration-500 ${flash ? 'shadow-[0_0_0_6px_#F5D43B]' : ''}`}
+          className={`bg-white text-text rounded-3xl p-5 sm:p-6 md:p-9 flex flex-col gap-6 self-start transition-shadow duration-500 ${flash ? 'shadow-[0_0_0_6px_#F5D43B]' : ''}`}
           onSubmit={(e) => { e.preventDefault(); window.open(wa, '_blank') }}
         >
+          <fieldset className="flex flex-col gap-2.5">
+            <legend className="text-lg font-extrabold text-ink mb-2.5">{t('Что вас беспокоит?')}</legend>
+            <div className="grid grid-cols-1 min-[360px]:grid-cols-2 gap-2">
+              {C.bookingOptions.map((o) => (
+                <button type="button" key={o.label} aria-pressed={service === o.label} onClick={() => pick(o.label)} className={chip(service === o.label)}>
+                  <span aria-hidden="true" className="shrink-0">{o.icon}</span><span className="min-w-0">{t(o.label)}</span>
+                </button>
+              ))}
+            </div>
+          </fieldset>
+          <fieldset className="flex flex-col gap-2.5">
+            <legend className="text-lg font-extrabold text-ink mb-2.5">{t('Когда удобно?')}</legend>
+            <div className="flex flex-wrap gap-2">
+              {C.bookingTimes.map((w) => (
+                <button type="button" key={w} aria-pressed={when === w} onClick={() => setWhen(when === w ? '' : w)}
+                  className={`rounded-full border-[1.5px] px-4 py-2.5 text-[15px] font-semibold transition-colors ${when === w ? 'border-ink bg-mint text-ink' : 'border-[#D6D3CA] bg-white hover:border-ink'}`}>
+                  {t(w)}
+                </button>
+              ))}
+            </div>
+          </fieldset>
           <label className="flex flex-col gap-1.5 text-sm font-semibold">{t('Ваше имя')}
             <input className={input} value={name} onChange={(e) => setName(e.target.value)} placeholder={t('Имя')} />
-          </label>
-          <label className="flex flex-col gap-1.5 text-sm font-semibold">{t('Что беспокоит')}
-            <select className={input} value={service} onChange={(e) => setService(e.target.value)}>
-              {C.bookingOptions.map((o) => <option key={o} value={o}>{t(o)}</option>)}
-            </select>
           </label>
           <label className="flex flex-col gap-1.5 text-sm font-semibold">{t('Врач')}
             <select className={input} value={doctor} onChange={(e) => setDoctor(e.target.value)}>
@@ -408,8 +433,12 @@ export function Booking() {
             </select>
           </label>
           <label className="flex flex-col gap-1.5 text-sm font-semibold">{t('Комментарий (необязательно)')}
-            <textarea className={input} rows={3} value={note} onChange={(e) => setNote(e.target.value)} placeholder={t('Например: удобно после 18:00')} />
+            <textarea className={input} rows={2} value={note} onChange={(e) => setNote(e.target.value)} placeholder={t('Например: удобно после 18:00')} />
           </label>
+          <div className="rounded-2xl bg-[#F4F2EC] p-4">
+            <div className="text-xs font-bold uppercase tracking-wide text-muted mb-1.5">{t('Ваше сообщение')}</div>
+            <p className="whitespace-pre-line text-[15px] leading-relaxed text-ink">{text}</p>
+          </div>
           <button type="submit" className="bg-ink text-mint font-extrabold text-lg py-4 rounded-full hover:bg-black transition-colors">{t('Отправить в WhatsApp')}</button>
           <a href={C.clinic.phoneHref} className="text-center font-bold text-teal">{t('или позвонить:')} {C.clinic.phone}</a>
         </form>
