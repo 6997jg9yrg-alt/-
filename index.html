@@ -3,8 +3,8 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <!-- Демо-версия: не показывать в поиске, пока клиника не одобрила сайт. Убрать эту строку при запуске. -->
-    <meta name="robots" content="noindex, nofollow" />
+    <!-- Главный адрес сайта. Копия на github.io при сборке получает noindex (см. vite.config.ts). -->
+    <link rel="canonical" href="https://aktobedent.kz/" />
     <meta name="description" content="Aktobe Dent — стоматология в Актобе. Лечение, импланты, коронки, виниры, детская стоматология. Бесплатная консультация." />
     <link rel="icon" href="./favicon.svg" type="image/svg+xml" />
     <link rel="icon" href="./favicon-32.png" type="image/png" sizes="32x32" />
@@ -14,14 +14,34 @@
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content="Aktobe Dent" />
     <meta property="og:locale" content="ru_RU" />
-    <meta property="og:url" content="https://6997jg9yrg-alt.github.io/-/" />
+    <meta property="og:url" content="https://aktobedent.kz/" />
     <meta property="og:title" content="Aktobe Dent — стоматология в Актобе" />
     <meta property="og:description" content="★ 5,0 в 2ГИС · 1 296 отзывов. Лечение, импланты, коронки, виниры, детская стоматология. Бесплатная консультация." />
-    <meta property="og:image" content="https://6997jg9yrg-alt.github.io/-/og.jpg" />
+    <meta property="og:image" content="https://aktobedent.kz/og.jpg" />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
     <meta property="og:image:alt" content="Aktobe Dent — врачи клиники, рейтинг 5,0" />
     <meta name="twitter:card" content="summary_large_image" />
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "Dentist",
+        "name": "Aktobe Dent",
+        "url": "https://aktobedent.kz/",
+        "image": "https://aktobedent.kz/og.jpg",
+        "telephone": "+77774414199",
+        "address": {
+          "@type": "PostalAddress",
+          "streetAddress": "11 мкр., ул. Нагашбая Шайкенова, 2",
+          "addressLocality": "Актобе",
+          "addressCountry": "KZ"
+        },
+        "sameAs": [
+          "https://www.instagram.com/aktobe_dent/",
+          "https://2gis.kz/aktobe/geo/70000001032523432"
+        ]
+      }
+    </script>
     <title>Aktobe Dent — стоматология в Актобе</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
